@@ -1,6 +1,6 @@
 [
-   { "caption": "-" },
-   { "caption": "FileDiffs Menu", "command": "file_diff_menu" },
-   { "caption": "Diff tab with Open Tab…", "command": "file_diff_tab" },
-   { "caption": "-" }
+	{ "caption": "-" },
+	{ "caption": "FileDiffs Menu", "command": "file_diff_menu" },
+	{ "caption": "Diff tab with Open Tab…", "command": "file_diff_tab" },
+	{ "caption": "-" }
 ]

@@ -1,6 +1,3 @@
 [
-    {
-        "caption": "FileDiffs: Menu",
-        "command": "file_diff_menu"
-    }
+	{ "caption": "FileDiffs: Menu", "command": "file_diff_menu" }
 ]
