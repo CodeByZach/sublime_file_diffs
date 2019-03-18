@@ -5,11 +5,11 @@ Shows diffs between the current file, or selection(s) in the current file, and c
 
 ## Preview
 
-![Preview](https://github.com/ildarkhasanshin/SublimeFileDiffs/raw/master/preview_1.png)
+![Preview](docs/preview_1.png)
 
-![Preview](https://github.com/ildarkhasanshin/SublimeFileDiffs/raw/master/preview_2.png)
+![Preview](docs/preview_2.png)
 
-![Preview](https://github.com/ildarkhasanshin/SublimeFileDiffs/raw/master/preview_3.png)
+![Preview](docs/preview_3.png)
 
 --------------
 
@@ -18,7 +18,7 @@ Help!
 
 Check the [wiki][] for more tips
 
-[wiki]: https://github.com/colinta/SublimeFileDiffs/wiki
+[wiki]: https://github.com/EatBreatheCode/sublime_file_diffs/wiki
 
 Installation
 ------------
@@ -40,26 +40,13 @@ Installation
 
     ```
     # Over SSH
-    git clone git@github.com:colinta/SublimeFileDiffs
+    git clone git@github.com:EatBreatheCode/sublime_file_diffs
 
     # Over HTTPS
-    git clone https://github.com/colinta/SublimeFileDiffs.git
+    git clone https://github.com/EatBreatheCode/sublime_file_diffs.git
     ```
 
 3. Install keymaps for the commands (see Example.sublime-keymap for my preferred keys)
-
-### Sublime Text 2
-
-1. Open the Sublime Text 2 Packages folder
-2. Clone this repo, but use the `st2` branch
-
-    ```
-    # Over SSH
-    git clone -b st2 git@github.com:colinta/SublimeFileDiffs
-
-    # Over HTTPS
-    git clone -b st2 https://github.com/colinta/SublimeFileDiffs.git
-    ```
 
 Add External Diff Tool *(optional)*
 --------
