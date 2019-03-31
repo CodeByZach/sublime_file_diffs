@@ -13,6 +13,33 @@ import codecs
 
 if sublime.platform() == "windows":
 	from subprocess import Popen
+	import ctypes
+	kernel32 = ctypes.windll.kernel32
+	kernel32.GlobalLock.argtypes = [ctypes.c_void_p]
+	kernel32.GlobalLock.restype = ctypes.c_void_p
+	kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
+	user32 = ctypes.windll.user32
+	user32.GetClipboardData.restype = ctypes.c_void_p
+
+
+def get_clipboard_text():
+	if sublime.platform() == 'windows':
+		user32.OpenClipboard(0)
+		try:
+			if user32.IsClipboardFormatAvailable(1):
+				data = user32.GetClipboardData(1)
+				data_locked = kernel32.GlobalLock(data)
+				text = ctypes.c_char_p(data_locked)
+				value = text.value
+				kernel32.GlobalUnlock(data_locked)
+				if value is not None:
+					return sublime.get_clipboard()
+				else:
+					return value
+		finally:
+			user32.CloseClipboard()
+	else:
+		return sublime.get_clipboard()
 
 
 class FileDiffMenuCommand(sublime_plugin.TextCommand):
@@ -247,7 +274,7 @@ class FileDiffClipboardCommand(FileDiffCommand):
 			if not region.empty():
 				from_file += ' (Selection)'
 				break
-		clipboard = sublime.get_clipboard()
+		clipboard = get_clipboard_text()
 		def on_post_diff_tool(from_file, to_file):
 			self.update_view(self.view, edit, from_file)
 			sublime.set_clipboard(self.get_content_from_file(to_file))
@@ -260,7 +287,7 @@ class FileDiffClipboardCommand(FileDiffCommand):
 			**kwargs)
 
 	def is_visible(self):
-		return bool(sublime.get_clipboard())
+		return bool(get_clipboard_text())
 
 
 class FileDiffSelectionsCommand(FileDiffCommand):
