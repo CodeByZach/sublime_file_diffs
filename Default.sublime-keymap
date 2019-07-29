@@ -1,7 +1,3 @@
-// [
-// 	{ "keys": ["ctrl+shift+d"], "command": "file_diff_menu" },
-// 	{ "keys": ["ctrl+shift+e"], "command": "file_diff_menu", "args": { "cmd": ["opendiff", "$file1", "$file2"] } }
-// ]
 /*
  * EXAMPLES:
  *
@@ -10,3 +6,6 @@
  * 		{ "keys": ["ctrl+shift+e"], "command": "file_diff_menu", "args": { "cmd": ["opendiff", "$file1", "$file2"] } }
  * 	]
  */
+[
+
+]
