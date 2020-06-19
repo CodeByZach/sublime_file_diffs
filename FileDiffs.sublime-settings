@@ -13,33 +13,48 @@
  * you might need to prefix /usr/local/bin, or use another explicit path.
  */
 {
-	// opendiff (FileMerge)
+	/*
+	 * opendiff (FileMerge)
+	 */
 	// "cmd": ["opendiff", "$file1", "$file2"]
 
-	// ksdiff (Kaleidoscope)
+	/*
+	 * ksdiff (Kaleidoscope)
+	 */
 	// "cmd": ["ksdiff", "$file1", "$file2"]
 
-	// twdiff (Textwrangler)
+	/*
+	 * twdiff (Textwrangler)
+	 */
 	// "cmd": ["twdiff", "$file1", "$file2"]
 
-	// bbdiff (BBEdit) NOTE: Use example below if you receive error.
+	/*
+	 * bbdiff (BBEdit) NOTE: Use example below if you receive error.
+	 */
 	// "cmd": ["bbdiff", "$file1", "$file2"]
 
-	// bbdiff (BBEdit)
+	/*
+	 * bbdiff (BBEdit)
+	 */
 	// "cmd" ["/usr/local/bin/bbdiff", "$file1", "$file2"]
 
-	// deltawalker (DeltaWalker)
+	/*
+	 * deltawalker (DeltaWalker)
+	 */
 	// "cmd": ["deltawalker", "-nosplash", "$file1", "$file2"]
 
-	// bcomp (Beyond Compare) NOTE: Requires Beyond Compare Command Line Tools.
+	/*
+	 * bcomp (Beyond Compare) NOTE: Requires Beyond Compare Command Line Tools.
+	 */
 	// "cmd": ["/usr/local/bin/bcomp", "$file1", "$file2"]
 
+	/*
+	 * Reverses "diff with clipboard" direction.
+	 */
+	// "reverse_clipboard": true,
 	// "trim_trailing_white_space_before_diff": false
 	// "expand_full_file_name_in_tab": false
 	// "apply_tempfile_changes_after_diff_tool": false
 	// "open_in_sublime": false
 	// "limit": 1000
-
-	// Reverses "diff with clipboard" direction.
-	// "reverse_clipboard": true,
 }
