@@ -39,4 +39,7 @@
 	// "apply_tempfile_changes_after_diff_tool": false
 	// "open_in_sublime": false
 	// "limit": 1000
+
+	// Reverses "diff with clipboard" direction.
+	// "reverse_clipboard": true,
 }
