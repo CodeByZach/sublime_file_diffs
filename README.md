@@ -1,5 +1,6 @@
 FileDiffs Plugin
 ================
+[![Latest Release](https://img.shields.io/github/tag/EatBreatheCode/sublime_file_diffs.svg?label=version)](https://github.com/EatBreatheCode/sublime_file_diffs/releases)
 
 Shows diffs between the current file, or selection(s) in the current file, and clipboard, another file, or unsaved changes. Can be configured to show diffs in an external diff tool
 
