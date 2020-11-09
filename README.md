@@ -1,6 +1,6 @@
 FileDiffs Plugin
 ================
-[![Latest Release](https://img.shields.io/github/tag/EatBreatheCode/sublime_file_diffs.svg?label=version)](https://github.com/EatBreatheCode/sublime_file_diffs/releases)
+[![Latest Release](https://img.shields.io/github/tag/CodeByZach/sublime_file_diffs.svg?label=version)](https://github.com/CodeByZach/sublime_file_diffs/releases)
 
 Shows diffs between the current file, or selection(s) in the current file, and clipboard, another file, or unsaved changes. Can be configured to show diffs in an external diff tool
 
@@ -19,7 +19,7 @@ Help!
 
 Check the [wiki][] for more tips
 
-[wiki]: https://github.com/EatBreatheCode/sublime_file_diffs/wiki
+[wiki]: https://github.com/CodeByZach/sublime_file_diffs/wiki
 
 Installation
 ------------
@@ -41,10 +41,10 @@ Installation
 
     ```
     # Over SSH
-    git clone git@github.com:EatBreatheCode/sublime_file_diffs
+    git clone git@github.com:CodeByZach/sublime_file_diffs
 
     # Over HTTPS
-    git clone https://github.com/EatBreatheCode/sublime_file_diffs.git
+    git clone https://github.com/CodeByZach/sublime_file_diffs.git
     ```
 
 3. Install keymaps for the commands (see Example.sublime-keymap for my preferred keys)
