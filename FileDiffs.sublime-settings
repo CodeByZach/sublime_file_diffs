@@ -14,47 +14,43 @@
  */
 {
 	/*
-	 * opendiff (FileMerge)
+	 * Specify third party diff tool.
 	 */
-	// "cmd": ["opendiff", "$file1", "$file2"]
+	// "cmd": ["opendiff", "$file1", "$file2"],                 // opendiff (FileMerge)
+	// "cmd": ["ksdiff", "$file1", "$file2"],                   // ksdiff (Kaleidoscope)
+	// "cmd": ["twdiff", "$file1", "$file2"],                   // twdiff (Textwrangler)
+	// "cmd": ["bbdiff", "$file1", "$file2"],                   // bbdiff (BBEdit) NOTE: Use example below if you receive error.
+	// "cmd": ["/usr/local/bin/bbdiff", "$file1", "$file2"],    // bbdiff (BBEdit)
+	// "cmd": ["deltawalker", "-nosplash", "$file1", "$file2"], // deltawalker (DeltaWalker)
+	// "cmd": ["/usr/local/bin/bcomp", "$file1", "$file2"],     // bcomp (Beyond Compare) NOTE: Requires Beyond Compare Command Line Tools (Beyond Compare > Install Command Line Tools).
 
 	/*
-	 * ksdiff (Kaleidoscope)
+	 * Open the diff within Sublime Text.
 	 */
-	// "cmd": ["ksdiff", "$file1", "$file2"]
+	// "open_in_sublime": false,
 
 	/*
-	 * twdiff (Textwrangler)
+	 * Trim whitespace before diff.
 	 */
-	// "cmd": ["twdiff", "$file1", "$file2"]
+	// "trim_trailing_white_space_before_diff": false,
 
 	/*
-	 * bbdiff (BBEdit) NOTE: Use example below if you receive error.
+	 * Expand full file name in tab.
 	 */
-	// "cmd": ["bbdiff", "$file1", "$file2"]
+	// "expand_full_file_name_in_tab": false,
 
 	/*
-	 * bbdiff (BBEdit)
+	 * Apply tempfile changes after diff tool.
 	 */
-	// "cmd" ["/usr/local/bin/bbdiff", "$file1", "$file2"]
+	// "apply_tempfile_changes_after_diff_tool": false,
 
 	/*
-	 * deltawalker (DeltaWalker)
+	 * Maximum number of files to include in a single diff.
 	 */
-	// "cmd": ["deltawalker", "-nosplash", "$file1", "$file2"]
-
-	/*
-	 * bcomp (Beyond Compare) NOTE: Requires Beyond Compare Command Line Tools.
-	 */
-	// "cmd": ["/usr/local/bin/bcomp", "$file1", "$file2"]
+	// "limit": 1000,
 
 	/*
 	 * Reverses "diff with clipboard" direction.
 	 */
 	// "reverse_clipboard": true,
-	// "trim_trailing_white_space_before_diff": false
-	// "expand_full_file_name_in_tab": false
-	// "apply_tempfile_changes_after_diff_tool": false
-	// "open_in_sublime": false
-	// "limit": 1000
 }
