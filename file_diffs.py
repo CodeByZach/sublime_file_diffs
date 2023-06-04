@@ -1,6 +1,7 @@
 # coding: utf8
 import os
 import re
+import sys
 
 import sublime
 import sublime_plugin
@@ -123,13 +124,15 @@ class FileDiffCommand(sublime_plugin.TextCommand):
 		(from_content, from_file) = self.prep_content(a, from_file, 'from_file')
 		(to_content, to_file) = self.prep_content(b, to_file, 'to_file')
 
-		diffs = list(difflib.unified_diff(from_content, to_content, from_file, to_file))
+		context_lines = self.get_setting("context_lines", 3);
+		if context_lines == "full":
+			context_lines = sys.maxsize
+
+		diffs = list(difflib.unified_diff(from_content, to_content, from_file, to_file, n=context_lines))
 
 		if not diffs:
-			if sublime.version() < '3000':
-				sublime.status_message('No Difference')
-			else:
-				self.view.show_popup('<span style="font-size: 10pt">No Difference</span>')
+			sublime.status_message('No Difference')
+
 		else:
 			external_command = external_diff_tool or self.get_setting('cmd')
 			open_in_sublime = self.get_setting('open_in_sublime', not external_command)
