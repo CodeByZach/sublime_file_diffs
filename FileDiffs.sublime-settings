@@ -13,49 +13,49 @@
  * you might need to prefix /usr/local/bin, or use another explicit path.
  */
 {
-	/*
-	 * Specify third party diff tool.
-	 */
-	// "cmd": ["opendiff", "$file1", "$file2"],                 // opendiff (FileMerge)
-	// "cmd": ["ksdiff", "$file1", "$file2"],                   // ksdiff (Kaleidoscope)
-	// "cmd": ["twdiff", "$file1", "$file2"],                   // twdiff (Textwrangler)
-	// "cmd": ["bbdiff", "$file1", "$file2"],                   // bbdiff (BBEdit) NOTE: Use example below if you receive error.
-	// "cmd": ["/usr/local/bin/bbdiff", "$file1", "$file2"],    // bbdiff (BBEdit)
-	// "cmd": ["deltawalker", "-nosplash", "$file1", "$file2"], // deltawalker (DeltaWalker)
-	// "cmd": ["/usr/local/bin/bcomp", "$file1", "$file2"],     // bcomp (Beyond Compare) NOTE: Requires Beyond Compare Command Line Tools (Beyond Compare > Install Command Line Tools).
+    /*
+     * Specify third party diff tool.
+     */
+    // "cmd": ["opendiff", "$file1", "$file2"],                 // opendiff (FileMerge)
+    // "cmd": ["ksdiff", "$file1", "$file2"],                   // ksdiff (Kaleidoscope)
+    // "cmd": ["twdiff", "$file1", "$file2"],                   // twdiff (Textwrangler)
+    // "cmd": ["bbdiff", "$file1", "$file2"],                   // bbdiff (BBEdit) NOTE: Use example below if you receive error.
+    // "cmd": ["/usr/local/bin/bbdiff", "$file1", "$file2"],    // bbdiff (BBEdit)
+    // "cmd": ["deltawalker", "-nosplash", "$file1", "$file2"], // deltawalker (DeltaWalker)
+    // "cmd": ["/usr/local/bin/bcomp", "$file1", "$file2"],     // bcomp (Beyond Compare) NOTE: Requires Beyond Compare Command Line Tools (Beyond Compare > Install Command Line Tools).
 
-	/*
-	 * Open the diff within Sublime Text.
-	 */
-	// "open_in_sublime": false,
+    /*
+     * Open the diff within Sublime Text.
+     */
+    // "open_in_sublime": false,
 
-	/*
-	 * Trim whitespace before diff.
-	 */
-	// "trim_trailing_white_space_before_diff": false,
+    /*
+     * Trim whitespace before diff.
+     */
+    // "trim_trailing_white_space_before_diff": false,
 
-	/*
-	 * Expand full file name in tab.
-	 */
-	// "expand_full_file_name_in_tab": false,
+    /*
+     * Expand full file name in tab.
+     */
+    // "expand_full_file_name_in_tab": false,
 
-	/*
-	 * Apply tempfile changes after diff tool.
-	 */
-	// "apply_tempfile_changes_after_diff_tool": false,
+    /*
+     * Apply tempfile changes after diff tool.
+     */
+    // "apply_tempfile_changes_after_diff_tool": false,
 
-	/*
-	 * Maximum number of files to include in a single diff.
-	 */
-	// "limit": 1000,
+    /*
+     * Maximum number of files to include in a single diff.
+     */
+    // "limit": 1000,
 
-	/*
-	 * Reverses "diff with clipboard" direction.
-	 */
-	// "reverse_clipboard": true,
+    /*
+     * Reverses "diff with clipboard" direction.
+     */
+    // "reverse_clipboard": true,
 
-	/*
-	 * Number of context lines. Defaults to 3. For full context, set it as "full".
-	 */
-	// "context_lines": 3,
+    /*
+     * Number of context lines. Defaults to 3. For full context, set it as "full".
+     */
+    // "context_lines": 3,
 }
