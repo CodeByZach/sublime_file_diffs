@@ -27,7 +27,7 @@
                             { "caption": "-" },
                             {
                                 "caption": "Key Bindings",
-                                "command": "edit_settings",
+                                "command": "z_edit_settings",
                                 "args":
                                 {
                                     "base_file": "${packages}/FileDiffs/Default.sublime-keymap",
@@ -45,28 +45,7 @@
                                         "command": "z_edit_settings",
                                         "args":
                                         {
-                                            "is_parent_setting": "1",
                                             "base_file": "${packages}/FileDiffs/Context.sublime-menu",
-                                            "default": "[\n\t$0\n]\n"
-                                        }
-                                    },
-                                    {
-                                        "caption": "Side Bar Menu",
-                                        "command": "z_edit_settings",
-                                        "args":
-                                        {
-                                            "is_parent_setting": "1",
-                                            "base_file": "${packages}/FileDiffs/Side Bar.sublime-menu",
-                                            "default": "[\n\t$0\n]\n"
-                                        }
-                                    },
-                                    {
-                                        "caption": "Tab Menu",
-                                        "command": "z_edit_settings",
-                                        "args":
-                                        {
-                                            "is_parent_setting": "1",
-                                            "base_file": "${packages}/FileDiffs/Tab Context.sublime-menu",
                                             "default": "[\n\t$0\n]\n"
                                         }
                                     },
@@ -75,8 +54,43 @@
                                         "command": "z_edit_settings",
                                         "args":
                                         {
-                                            "is_parent_setting": "1",
                                             "base_file": "${packages}/FileDiffs/Main.sublime-menu",
+                                            "default": "[\n\t$0\n]\n"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Side Bar Menu",
+                                        "command": "z_edit_settings",
+                                        "args":
+                                        {
+                                            "base_file": "${packages}/FileDiffs/Side Bar.sublime-menu",
+                                            "default": "[\n\t$0\n]\n"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Side Bar Open Files Menu",
+                                        "command": "z_edit_settings",
+                                        "args":
+                                        {
+                                            "base_file": "${packages}/FileDiffs/Tab Sidebar Context.sublime-menu",
+                                            "default": "[\n\t$0\n]\n"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Tab Menu",
+                                        "command": "z_edit_settings",
+                                        "args":
+                                        {
+                                            "base_file": "${packages}/FileDiffs/Tab Context.sublime-menu",
+                                            "default": "[\n\t$0\n]\n"
+                                        }
+                                    },
+                                    {
+                                        "caption": "Widget Menu",
+                                        "command": "z_edit_settings",
+                                        "args":
+                                        {
+                                            "base_file": "${packages}/FileDiffs/Widget Context.sublime-menu",
                                             "default": "[\n\t$0\n]\n"
                                         }
                                     }
@@ -87,7 +101,6 @@
                                 "command": "z_edit_settings",
                                 "args":
                                 {
-                                    "is_parent_setting": "1",
                                     "base_file": "${packages}/FileDiffs/Default.sublime-commands",
                                     "default": "[\n\t$0\n]\n"
                                 }
