@@ -1,5 +1,5 @@
 [
-    { "caption": "-", "id": "file_diffs" },
+    { "caption": "-", "id": "diff" },
     { "caption": "FileDiffs Menu",      "command": "file_diff_menu" },
     { "caption": "Diff Selections",     "command": "file_diff_selections" },
     { "caption": "Diff with Clipboard", "command": "file_diff_clipboard" },
