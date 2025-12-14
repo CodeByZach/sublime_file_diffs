@@ -406,10 +406,12 @@ class FileDiffFileCommand(FileDiffCommand):
                     **kwargs)
         sublime.set_timeout(lambda: self.view.window().show_quick_panel(file_picker, on_done), 1)
 
-    def find_files(self, folders, ret=[]):
+    def find_files(self, folders, ret=None):
         # Cannot access these settings!!  WHY!?
         # folder_exclude_patterns = self.view.get_setting('folder_exclude_patterns')
         # file_exclude_patterns = self.view.get_setting('file_exclude_patterns')
+        if ret is None:
+            ret = []
         folder_exclude_patterns = [".svn", ".git", ".hg", "CVS"]
         file_exclude_patterns = ["*.pyc", "*.pyo", "*.exe", "*.dll", "*.obj", "*.o", "*.a", "*.lib", "*.so", "*.dylib", "*.ncb", "*.sdf", "*.suo", "*.pdb", "*.idb", ".DS_Store", "*.class", "*.psd", "*.db"]
         max_files = self.get_setting('limit', 1000)
