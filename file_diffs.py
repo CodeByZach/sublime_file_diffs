@@ -44,6 +44,9 @@ def get_clipboard_text():
 
 
 class FileDiffMenuCommand(sublime_plugin.TextCommand):
+    def is_visible(self, **kwargs):
+        return get_setting('show_context_menu', True)
+
     def run(self, edit, cmd=None):
         # Individual menu items.
         CLIPBOARD   = {'text': 'Diff file with Clipboard',          'command' : 'file_diff_clipboard'}
@@ -79,17 +82,6 @@ class FileDiffMenuCommand(sublime_plugin.TextCommand):
 
 
 class FileDiffCommand(sublime_plugin.TextCommand):
-    def get_setting(self, key, default=None):
-        settings = sublime.load_settings('FileDiffs.sublime-settings')
-        os_specific_settings = {}
-        if sublime.platform() == 'windows':
-            os_specific_settings = sublime.load_settings('FileDiffs (Windows).sublime-settings')
-        elif sublime.platform() == 'osx':
-            os_specific_settings = sublime.load_settings('FileDiffs (OSX).sublime-settings')
-        else:
-            os_specific_settings = sublime.load_settings('FileDiffs (Linux).sublime-settings')
-        return os_specific_settings.get(key, settings.get(key, default))
-
     def diff_content(self, view):
         content = ''
 
@@ -102,13 +94,35 @@ class FileDiffCommand(sublime_plugin.TextCommand):
             content = view.substr(sublime.Region(0, view.size()))
         return content
 
+    def get_buffer_line_endings(self):
+        """Detect buffer line ending."""
+        line_sep = self.view.line_endings()
+        if line_sep == 'CR':
+            return '\r'
+        elif line_sep == 'Unix':
+            return '\n'
+        elif line_sep == 'Windows':
+            return '\r\n'
+
+        return os.linesep
+
+    def set_line_endings(self, content, line_ending):
+        """Normalize all line endings in content to specified line ending."""
+        if not line_ending:
+            return content
+        # First normalize to LF, then convert to target
+        content = content.replace('\r\n', '\n').replace('\r', '\n')
+        if line_ending != '\n':
+            content = content.replace('\n', line_ending)
+        return content
+
     def prep_content(self, ab, file_name, default_name):
         content = ab.splitlines(True)
         if file_name is None:
             file_name = default_name
         content = [line.replace("\r\n", "\n").replace("\r", "\n") for line in content]
 
-        trim_trailing_white_space_before_diff = self.get_setting('trim_trailing_white_space_before_diff', False)
+        trim_trailing_white_space_before_diff = get_setting('trim_trailing_white_space_before_diff', False)
         if trim_trailing_white_space_before_diff:
             content = [line.rstrip() for line in content]
 
@@ -124,7 +138,7 @@ class FileDiffCommand(sublime_plugin.TextCommand):
         (from_content, from_file) = self.prep_content(a, from_file, 'from_file')
         (to_content, to_file) = self.prep_content(b, to_file, 'to_file')
 
-        context_lines = self.get_setting("context_lines", 3);
+        context_lines = get_setting("context_lines", 3);
         if context_lines == "full":
             context_lines = sys.maxsize
 
@@ -134,8 +148,8 @@ class FileDiffCommand(sublime_plugin.TextCommand):
             self.view.show_popup('No Difference')
 
         else:
-            external_command = external_diff_tool or self.get_setting('cmd')
-            open_in_sublime = self.get_setting('open_in_sublime', not external_command)
+            external_command = external_diff_tool or get_setting('cmd')
+            open_in_sublime = get_setting('open_in_sublime', not external_command)
 
             if external_command:
                 self.diff_with_external(external_command, a, b, from_file, to_file, **options)
@@ -167,7 +181,8 @@ class FileDiffCommand(sublime_plugin.TextCommand):
                 files_to_remove.append(tmp_file.name)
 
                 with codecs.open(from_file, encoding='utf-8', mode='w+') as tmp_file:
-                    tmp_file.write(a)
+                    a_tmp = self.set_line_endings(a, self.get_buffer_line_endings())
+                    tmp_file.write(a_tmp)
 
             if not to_file_on_disk:
                 tmp_file = tempfile.NamedTemporaryFile(dir = sublime.packages_path(), prefix = "file-diffs-", suffix = ".temp", delete=False)
@@ -176,9 +191,10 @@ class FileDiffCommand(sublime_plugin.TextCommand):
                 files_to_remove.append(tmp_file.name)
 
                 with codecs.open(to_file, encoding='utf-8', mode='w+') as tmp_file:
-                    tmp_file.write(b)
+                    b_tmp = self.set_line_endings(b, self.get_buffer_line_endings())
+                    tmp_file.write(b_tmp)
 
-            trim_trailing_white_space_before_diff = self.get_setting('trim_trailing_white_space_before_diff', False)
+            trim_trailing_white_space_before_diff = get_setting('trim_trailing_white_space_before_diff', False)
             if trim_trailing_white_space_before_diff:
                 def trim_trailing_white_space(file_name):
                     trim_lines = []
@@ -212,7 +228,7 @@ class FileDiffCommand(sublime_plugin.TextCommand):
                 else:
                     subprocess.Popen(external_command)
 
-                apply_tempfile_changes_after_diff_tool = self.get_setting('apply_tempfile_changes_after_diff_tool', False)
+                apply_tempfile_changes_after_diff_tool = get_setting('apply_tempfile_changes_after_diff_tool', False)
                 post_diff_tool = options.get('post_diff_tool')
                 if apply_tempfile_changes_after_diff_tool and post_diff_tool is not None and (not from_file_on_disk or not to_file_on_disk):
                     if from_file_on_disk:
@@ -237,10 +253,15 @@ class FileDiffCommand(sublime_plugin.TextCommand):
 
     def diff_in_sublime(self, diffs):
         diffs = ''.join(diffs)
+        global scratches
+        global do_not_record
+        do_not_record = True
         scratch = self.view.window().new_file()
+        scratches.add(scratch.id())
         scratch.set_scratch(True)
         scratch.set_syntax_file('Packages/Diff/Diff.tmLanguage')
         scratch.run_command('file_diff_dummy1', {'content': diffs})
+        do_not_record = False
 
     def read_file(self, file_name):
         content = ''
@@ -305,7 +326,7 @@ class FileDiffClipboardCommand(FileDiffCommand):
             self.update_view(self.view, edit, to_file)
             sublime.set_clipboard(self.get_content_from_file(from_file))
 
-        reverse = kwargs.get('reverse') or self.get_setting('reverse_clipboard', False)
+        reverse = kwargs.get('reverse') or get_setting('reverse_clipboard', False)
         kwargs.update({'post_diff_tool': on_post_diff_tool, 'reverse': reverse})
 
         self.run_diff(clipboard, self.diff_content(self.view),
@@ -314,6 +335,8 @@ class FileDiffClipboardCommand(FileDiffCommand):
             **kwargs)
 
     def is_visible(self):
+        if not get_setting('show_context_menu', True):
+            return False
         return bool(get_clipboard_text())
 
 
@@ -360,6 +383,8 @@ class FileDiffSelectionsCommand(FileDiffCommand):
             **kwargs)
 
     def is_visible(self):
+        if not get_setting('show_context_menu', True):
+            return False
         return len(self.view.sel()) > 1
 
 
@@ -375,6 +400,8 @@ class FileDiffSavedCommand(FileDiffCommand):
             **kwargs)
 
     def is_visible(self):
+        if not get_setting('show_context_menu', True):
+            return False
         return bool(self.view.file_name()) and self.view.is_dirty()
 
 
@@ -414,7 +441,7 @@ class FileDiffFileCommand(FileDiffCommand):
             ret = []
         folder_exclude_patterns = [".svn", ".git", ".hg", "CVS"]
         file_exclude_patterns = ["*.pyc", "*.pyo", "*.exe", "*.dll", "*.obj", "*.o", "*.a", "*.lib", "*.so", "*.dylib", "*.ncb", "*.sdf", "*.suo", "*.pdb", "*.idb", ".DS_Store", "*.class", "*.psd", "*.db"]
-        max_files = self.get_setting('limit', 1000)
+        max_files = get_setting('limit', 1000)
 
         for folder in folders:
             if not os.path.isdir(folder):
@@ -434,6 +461,9 @@ class FileDiffFileCommand(FileDiffCommand):
                     self.view.show_popup('Too many files to include all of them in this list')
                     return ret
         return ret
+
+    def is_visible(self, **kwargs):
+        return get_setting('show_context_menu', True)
 
 
 class FileDiffTabCommand(FileDiffCommand):
@@ -472,17 +502,21 @@ class FileDiffTabCommand(FileDiffCommand):
         if len(files) == 1:
             on_done(0)
         else:
-            if self.get_setting('expand_full_file_name_in_tab', False):
+            if get_setting('expand_full_file_name_in_tab', False):
                 menu_items = [[os.path.basename(f),f] for f in files]
             else:
                 menu_items = [os.path.basename(f) for f in files]
             sublime.set_timeout(lambda: self.view.window().show_quick_panel(menu_items, on_done), 1)
 
     def is_visible(self):
+        if not get_setting('show_context_menu', True):
+            return False
         return len(self.view.window().views()) > 1
 
 
 previous_view = current_view = None
+do_not_record = False
+scratches = set()
 
 class FileDiffPreviousCommand(FileDiffCommand):
     def run(self, edit, **kwargs):
@@ -498,9 +532,16 @@ class FileDiffPreviousCommand(FileDiffCommand):
                 **kwargs)
 
     def is_visible(self):
+        if not get_setting('show_context_menu', True):
+            return False
         return previous_view is not None
 
 def record_current_view(view):
+    if do_not_record:
+        return
+    settings = view.settings()
+    if view.id() in scratches:
+        return
     global previous_view
     global current_view
     previous_view = current_view
@@ -517,3 +558,19 @@ class FileDiffListener(sublime_plugin.EventListener):
                 record_current_view(view)
         except AttributeError:
             pass
+
+    def on_close(self, view):
+        if view.id() in scratches:
+            scratches.remove(view.id())
+
+
+def get_setting(key, default=None):
+    settings = sublime.load_settings('FileDiffs.sublime-settings')
+    os_specific_settings = {}
+    if sublime.platform() == 'windows':
+        os_specific_settings = sublime.load_settings('FileDiffs (Windows).sublime-settings')
+    elif sublime.platform() == 'osx':
+        os_specific_settings = sublime.load_settings('FileDiffs (OSX).sublime-settings')
+    else:
+        os_specific_settings = sublime.load_settings('FileDiffs (Linux).sublime-settings')
+    return os_specific_settings.get(key, settings.get(key, default))
