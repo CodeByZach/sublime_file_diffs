@@ -253,7 +253,6 @@ class FileDiffCommand(sublime_plugin.TextCommand):
 
     def diff_in_sublime(self, diffs):
         diffs = ''.join(diffs)
-        global scratches
         global do_not_record
         do_not_record = True
         scratch = self.view.window().new_file()
